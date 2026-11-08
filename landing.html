@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="description" content="Andromeda Security gives you one console for redirect destinations, ordered routing rules, rate limits, and security controls.">
+  <title>Andromeda Security | Your traffic. Your rules.</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    :root { color-scheme: dark; --bg:#0a0a0a; --panel:#111411; --text:#ededed; --muted:#a0a8a2; --line:#28312b; --green:#75e2ac; font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:30px; }
+    body { margin:0; background:var(--bg); color:var(--text); }
+    a { color:inherit; text-decoration:none; }
+    a:focus-visible { outline:2px solid var(--green); outline-offset:6px; }
+    ::selection { background:var(--green); color:var(--bg); }
+    .wrap { width:min(1180px,calc(100% - 64px)); margin:auto; }
+    .skip { position:absolute; top:-70px; background:var(--green); color:#082719; padding:12px; z-index:2; }
+    .skip:focus { top:12px; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:28px 0; border-bottom:1px solid var(--line); }
+    .brand { display:flex; align-items:center; gap:12px; font-size:18px; font-weight:650; letter-spacing:-.5px; }
+    .brand img { width:40px; height:40px; }
+    .brand small { display:block; font-size:9px; text-transform:uppercase; letter-spacing:3px; color:var(--muted); margin-top:3px; }
+    nav { display:flex; gap:32px; align-items:center; font-size:13px; }
+    nav>a:not(.button) { color:var(--muted); }
+    nav>a:hover, .text-link:hover { color:var(--green); }
+    .button { white-space:nowrap; flex-shrink:0; display:inline-flex; justify-content:center; align-items:center; gap:24px; background:var(--green); color:#082719; border:1px solid var(--green); padding:15px 21px; border-radius:6px; font-size:14px; font-weight:600; transition:background .2s,transform .2s; }
+    .button:hover { background:#a0f0c7; transform:translateY(-2px); }
+    .button.small { padding:10px 16px; font-size:12px; }
+    .hero { display:grid; grid-template-columns:1.05fr 1fr; align-items:center; gap:64px; padding:106px 0 94px; }
+    .eyebrow { display:flex; gap:10px; align-items:center; color:var(--green); font-size:11px; letter-spacing:2px; text-transform:uppercase; }
+    .eyebrow::before { content:""; width:7px; height:7px; background:var(--green); border-radius:50%; }
+    h1 { font-size:clamp(48px,6.2vw,78px); line-height:1.04; letter-spacing:-4px; font-weight:550; margin:25px 0; }
+    h1 span { color:var(--green); }
+    .intro { color:var(--muted); font-size:17px; line-height:1.8; max-width:470px; }
+    .actions { display:flex; flex-wrap:wrap; align-items:center; gap:28px; margin-top:34px; }
+    .text-link { font-size:13px; }
+    .note { color:var(--muted); font-size:11px; margin-top:18px; }
+    .diagram { position:relative; border:1px solid var(--line); border-radius:12px; background:radial-gradient(ellipse at 50% 45%,#192c20 0,transparent 65%),#0e110f; padding:22px; box-shadow:0 24px 100px #0006; }
+    .diagram-top { display:flex; justify-content:space-between; color:var(--muted); font-size:10px; letter-spacing:1px; text-transform:uppercase; }
+    .diagram-top span:last-child { color:var(--green); }
+    .flow { display:flex; flex-direction:column; align-items:center; padding:30px 0 15px; }
+    .node { background:#131a16; border:1px solid #354c3d; border-radius:7px; padding:13px 22px; font-size:12px; text-align:center; }
+    .connector { width:1px; height:27px; background:#547e62; position:relative; }
+    .connector::after { content:""; position:absolute; bottom:0; left:-3px; border-left:4px solid transparent; border-right:4px solid transparent; border-top:5px solid var(--green); }
+    .engine { display:flex; align-items:center; gap:13px; padding:19px 30px; border-color:var(--green); box-shadow:0 0 35px #75e2ac10; }
+    .engine img { width:34px; height:34px; }
+    .engine strong { display:block; font-size:15px; font-weight:550; }
+    .engine small { display:block; color:var(--muted); margin-top:5px; font-size:10px; }
+    .rules { width:100%; border:1px solid var(--line); border-radius:7px; background:#101511; overflow:hidden; }
+    .rule { display:grid; grid-template-columns:24px 1fr auto; gap:9px; padding:13px 15px; align-items:center; font-size:11px; }
+    .rule+.rule { border-top:1px solid var(--line); }
+    .rule b { font-weight:400; color:#718279; font-size:10px; }
+    .rule span:last-child { color:var(--green); }
+    .rule:last-child span:last-child { color:var(--muted); }
+    figcaption { margin-top:19px; text-align:center; color:var(--muted); font-size:10px; line-height:1.6; }
+    figure { margin:0; }
+    .section-head { display:flex; justify-content:space-between; align-items:start; gap:40px; padding-top:62px; border-top:1px solid var(--line); }
+    .section-head h2 { max-width:480px; font-weight:500; font-size:36px; letter-spacing:-1.3px; line-height:1.2; margin:0; }
+    .section-head p { max-width:340px; color:var(--muted); font-size:14px; line-height:1.8; margin:0; }
+    .features { display:grid; grid-template-columns:repeat(3,1fr); gap:40px; padding:46px 0 70px; }
+    .feature { border-top:1px solid var(--line); padding-top:22px; }
+    .number { font-size:11px; color:var(--green); font-family:ui-monospace,monospace; }
+    h3 { font-size:19px; font-weight:500; letter-spacing:-.4px; margin:20px 0 12px; }
+    .feature p { color:var(--muted); font-size:14px; line-height:1.8; margin:0; }
+    .closing { display:flex; align-items:center; justify-content:space-between; gap:32px; background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:36px 40px; margin-bottom:70px; }
+    .closing h2 { font-size:25px; font-weight:500; letter-spacing:-.7px; margin:0 0 10px; }
+    .closing p { color:var(--muted); font-size:13px; margin:0; line-height:1.7; }
+    footer { display:flex; justify-content:space-between; gap:24px; border-top:1px solid var(--line); padding:25px 0 32px; color:var(--muted); font-size:11px; }
+    @media(min-width:1500px) { .hero { padding-top:130px; padding-bottom:120px; } }
+    @media(max-width:900px) { .hero { gap:32px; } h1 { letter-spacing:-2.5px; } .wrap { width:calc(100% - 40px); } .diagram { padding:16px; } .rule { padding:12px 10px; font-size:10px; } .features { gap:24px; } }
+    @media(max-width:680px) { header { padding:20px 0; } nav { gap:0; } nav>a:not(.button) { display:none; } .brand { font-size:16px; gap:8px; } .brand img { width:34px; height:34px; } .hero { grid-template-columns:1fr; padding:62px 0 56px; gap:44px; } h1 { font-size:58px; } .intro { font-size:16px; } .diagram { max-width:460px; width:100%; margin:auto; padding:20px; } .rule { font-size:11px; padding:13px; } .section-head { display:block; padding-top:40px; } .section-head h2 { font-size:30px; } .section-head p { margin-top:20px; max-width:none; } .features { grid-template-columns:1fr; gap:30px; padding:32px 0 45px; } h3 { margin-top:12px; } .closing { align-items:start; flex-direction:column; padding:28px; margin-bottom:40px; } footer { flex-direction:column; gap:10px; } }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .button { transition:none; } .button:hover { transform:none; } }
+  </style>
+  <script type="module" crossorigin src="/assets/landing-37wIqcuR.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/client-1-TiSwZ0.js">
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>
