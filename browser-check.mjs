@@ -43,6 +43,47 @@ try {
     assert.equal(await page.locator("h1").count(), 1);
     assert.equal(await page.locator("article").count(), 4);
     assert.equal(
+      await page
+        .locator("html")
+        .evaluate((element) => getComputedStyle(element).backgroundColor),
+      "rgb(8, 9, 9)",
+    );
+    assert.equal(
+      await page
+        .locator(".hero-actions .button")
+        .first()
+        .evaluate((element) => getComputedStyle(element).backgroundColor),
+      "rgb(145, 237, 182)",
+    );
+    assert.equal(
+      await page
+        .locator(".signal")
+        .first()
+        .evaluate((element) => getComputedStyle(element).display),
+      "none",
+    );
+    const visualizations = {
+      Routing: ".mini-routing",
+      Targets: ".mini-targets",
+      "IP blocks": ".mini-policies",
+      "Security checks": ".mini-checks",
+    };
+    for (const [name, selector] of Object.entries(visualizations)) {
+      const card = page
+        .getByRole("article")
+        .filter({ has: page.getByRole("heading", { name, exact: true }) });
+      assert.equal(
+        await card.locator(selector).isVisible(),
+        true,
+        `${name} card visualization at ${width}px`,
+      );
+      const bounds = await card.locator(selector).boundingBox();
+      assert.ok(
+        bounds.width > 100 && bounds.height > 100,
+        `${name} meaningful visualization size`,
+      );
+    }
+    assert.equal(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
@@ -52,6 +93,14 @@ try {
     for (const name of ["Routing", "Targets", "IP blocks", "Security checks"]) {
       const tab = page.getByRole("tab", { name, exact: true });
       await tab.click();
+      const panel = page.getByRole("tabpanel");
+      const selector =
+        name === "Routing" ? ".routing-diagram" : visualizations[name];
+      assert.equal(
+        await panel.locator(selector).isVisible(),
+        true,
+        `${name} explorer visualization at ${width}px`,
+      );
       assert.equal(await tab.getAttribute("aria-selected"), "true");
       assert.equal(
         await page.getByRole("tabpanel").getAttribute("aria-labelledby"),
@@ -85,7 +134,24 @@ try {
         .click();
       assert.equal(await nav.isVisible(), false);
     }
-    await page.getByRole("tab", { name: "Routing", exact: true }).click();
+    const routingTab = page.getByRole("tab", { name: "Routing", exact: true });
+    await routingTab.click();
+    await routingTab.press("ArrowRight");
+    assert.equal(
+      await page
+        .getByRole("tab", { name: "Targets", exact: true })
+        .evaluate((element) => element === document.activeElement),
+      true,
+    );
+    await page.keyboard.press("End");
+    assert.equal(
+      await page
+        .getByRole("tab", { name: "Security checks", exact: true })
+        .getAttribute("aria-selected"),
+      "true",
+    );
+    await page.keyboard.press("Home");
+    assert.equal(await routingTab.getAttribute("aria-selected"), "true");
     await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
     await page.screenshot({
       path: join(outputDirectory, `andromeda-${width}.png`),
@@ -93,7 +159,7 @@ try {
     });
     assert.deepEqual(errors, [], `Runtime errors at ${width}px`);
     console.log(
-      `PASS ${width}px: layout, tabs, feature links, navigation, no runtime errors`,
+      `PASS ${width}px: four rendered feature visuals, matching explorer panels, dark/mint theme, reduced motion, keyboard tabs, feature links, navigation, no overflow or runtime errors`,
     );
     await page.close();
   }
