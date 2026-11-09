@@ -30,7 +30,7 @@ try {
     });
   });
   await mkdir(outputDirectory, { recursive: true });
-  browser = await chromium.launch();
+  browser = await chromium.launch({ channel: "chromium" });
   for (const width of [1440, 1024, 768, 390, 320]) {
     const page = await browser.newPage({
       viewport: { width, height: 1000 },

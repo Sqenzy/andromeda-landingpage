@@ -178,7 +178,7 @@ button {
 }
 .hero-grid {
   position: absolute;
-  inset: 0 -48px 200px;
+  inset: 0 0 200px;
   z-index: -1;
   background-image:
     linear-gradient(#ffffff05 1px, transparent 1px),
@@ -1352,7 +1352,7 @@ h1 {
     padding-top: 51px;
   }
   .hero-grid {
-    inset: 0 -20px 150px;
+    inset: 0 0 150px;
     background-size: 45px 45px;
   }
   .release-badge {
